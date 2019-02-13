@@ -27,6 +27,7 @@ app.get('/restaurant', (reg, res) =>{
 })
 
 app.post('/restaurant', (reg, res) =>{
+    console.log('in /restarant post')
     pool.query(`INSERT INTO "restaurant" ("name" , "type") VALUES ($1, $2);`, [reg.body.name, reg.body.type])
     .then(() => {
         res.sendStatus(201)

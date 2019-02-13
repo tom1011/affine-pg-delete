@@ -7,18 +7,18 @@ function onready() {
 }
 
 function deleteButton(){
-    $(this).find('td').delete();
+    $(this).closest('tr').fadeOut();
 }
 
 function submintButton(){
     let namer = $('#nameRestaurant').val();
     let typer = $('#typeRestaurant').val();
-    console.log(namer);
     $.ajax({
         method: 'POST',
+        url: '/restaurant',
         data: {
             name: namer,
-            url: '/restaurant',
+
             type: typer
         }
     }).then(updateTableDisplay)
