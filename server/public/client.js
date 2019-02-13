@@ -3,16 +3,18 @@ $(document).ready(onready);
 function onready() {
     $('#submitButton').on('click', submintButton);
     $('#tableDisplayResturant').on('click','.deleteButton', deleteButton);
+    //decendent selector.
     updateTableDisplay();
 }
 
 //ajax delete
 function deleteButton(){
-    $(this).closest('tr').fadeOut();
+    //data() is a part of jquery so its a method(funciton)
+    console.log($(this).data().id);
     $.ajax({
         method: "DELETE",
-        url: '/restaurant',
-        //something
+        url: '/restaurant/' + $(this).data().id
+        // this is how jquery dose it
     }).then(updateTableDisplay)
 }//end delte
 
@@ -53,7 +55,7 @@ function updateTableDisplay(){
             <tr class = "tdrow">
                 <td>${response[i].name}</td>
                 <td>${response[i].type}</td>
-                <td><button class="deleteButton" >Delete</button></td>
+                <td><button class="deleteButton" data-id = "${response[i].id}">Delete</button></td>
             </tr>
             `)
         }    

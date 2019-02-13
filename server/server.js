@@ -11,7 +11,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(express.static('server/public'));
 
-app.use('/', restaurantRouter);
+//this will change /restaurant in this router to just / becuse
+// it puts whats used in this statment as the default.
+app.use('/restaurant', restaurantRouter);
 
 app.listen(PORT, () => {
     console.log('listening on port', PORT);
