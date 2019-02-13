@@ -1,17 +1,10 @@
 const express = require('express');
-const pg = require('pg');
 const bodyParser = require('body-parser');
 // end modulas require
 const app = express();
 const PORT = 5000;
-const pool = pg.Pool({
-    host: 'localhost',
-    port: 5432,
-    database: 'restaurant',
-    max: 10,
-    idleTimeoutMillis: 30000,
-    })
-
+const pool = require ('./modules/pool');
+//const added ie port is server port, pool is db connection.
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(express.static('server/public'));
@@ -35,6 +28,10 @@ app.post('/restaurant', (reg, res) =>{
         console.log('error with restaurant post: ', error);
         res.sendStatus(500);
     });
+})
+
+app.delete('/restaurant', (reg,res) =>{
+    pool.delete(`DELETE FROM "restaurant" WHERE ;`)
 })
 
 app.listen(PORT, () => {
