@@ -10,7 +10,8 @@ const router = express.Router();// this is new
 
 // app is changed to router.
 router.get('/', (reg, res) =>{
-    pool.query('SELECT * FROM "restaurant"')
+    // set an order by for table stuff.
+    pool.query('SELECT * FROM "restaurant" ORDER BY "id";')
     .then((results) => {
         res.send(results.rows)//array of objects with the array being books and properties being title, author, published.
     }).catch((error) => {
@@ -21,7 +22,7 @@ router.get('/', (reg, res) =>{
 
 router.post('/', (reg, res) =>{
     console.log('in /restarant post')
-    pool.query(`INSERT INTO "restaurant" ("name" , "type") VALUES ($1, $2);`, [reg.body.name, reg.body.type])
+    pool.query(`INSERT INTO "restaurant" ("name" , "type", "rating") VALUES ($1, $2, $3);`, [reg.body.name, reg.body.type, reg.body.rating])
     .then(() => {
         res.sendStatus(201)
     }).catch((error) => {
@@ -42,6 +43,22 @@ router.delete('/:id', (reg, res) =>{
         // 204 is delete.
     }).catch((error) => {
         console.log('error with restaurant delete: ', error);
+        res.sendStatus(500);
+    });
+})
+
+// you need to ordered by id
+router.put('/:id', (reg, res) =>{
+    //console.log('in /restarant PUT');
+    //console.log(reg.params.id);
+
+        pool.query(`UPDATE "restaurant"
+    SET "rating" = '5'
+    WHERE "id" = $1;`, [reg.params.id])
+    .then(() => {
+        res.sendStatus(204)
+    }).catch((error) => {
+        console.log('error with restaurant update: ', error);
         res.sendStatus(500);
     });
 })
